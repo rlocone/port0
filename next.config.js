@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  outputFileTracingRoot: undefined,
+  output: 'standalone',
   typescript: {
     ignoreBuildErrors: false,
   },

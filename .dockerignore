@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.next/
+.next/*
+!.next/standalone/
+!.next/static/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# Git
+.git/
+
+# Build artifacts
+dist/
+build/
+.deploy/
+
+# IDE
+.vscode/
+.idea/
