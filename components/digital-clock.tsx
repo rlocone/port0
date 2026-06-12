@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock, Timer, Calendar, Hash, PieChart } from 'lucide-react';
+import { Clock, Timer } from 'lucide-react';
 
 export default function DigitalClock() {
   const [mounted, setMounted] = useState(false);
@@ -13,7 +13,7 @@ export default function DigitalClock() {
     const now = new Date();
     setTime(now);
     setUnixTime(Math.floor(now.getTime() / 1000));
-    
+
     const timer = setInterval(() => {
       const current = new Date();
       setTime(current);
@@ -25,49 +25,49 @@ export default function DigitalClock() {
 
   const getTimezoneInfo = () => {
     if (!time) return { name: '---', offset: '---' };
-    
+
     const timezoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const offsetMinutes = time.getTimezoneOffset();
     const offsetHours = Math.floor(Math.abs(offsetMinutes) / 60);
     const offsetMins = Math.abs(offsetMinutes) % 60;
     const offsetSign = offsetMinutes <= 0 ? '+' : '-';
-    const offsetStr = `UTC${offsetSign}${offsetHours.toString().padStart(2, '0')}:${offsetMins.toString().padStart(2, '0')}`;
-    
+    const offsetStr = `UTC${offsetSign}${String(offsetHours).padStart(2, '0')}:${String(offsetMins).padStart(2, '0')}`;
+
     return { name: timezoneName, offset: offsetStr };
   };
 
   const formatTime = (date: Date | null) => {
     if (!date) return { hours: '--', minutes: '--', seconds: '--', period: '--', date: '---' };
-    
-    const hours = date?.getHours?.() ?? 0;
-    const minutes = date?.getMinutes?.() ?? 0;
-    const seconds = date?.getSeconds?.() ?? 0;
+
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
-    
+
     return {
-      hours: displayHours?.toString?.()?.padStart?.(2, '0') ?? '00',
-      minutes: minutes?.toString?.()?.padStart?.(2, '0') ?? '00',
-      seconds: seconds?.toString?.()?.padStart?.(2, '0') ?? '00',
+      hours: String(displayHours).padStart(2, '0'),
+      minutes: String(minutes).padStart(2, '0'),
+      seconds: String(seconds).padStart(2, '0'),
       period,
-      date: date?.toLocaleDateString?.('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) ?? ''
+      date: date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     };
   };
 
   const formatUTCTime = (date: Date | null) => {
     if (!date) return { hours: '--', minutes: '--', seconds: '--', period: '--' };
-    
-    const hours = date?.getUTCHours?.() ?? 0;
-    const minutes = date?.getUTCMinutes?.() ?? 0;
-    const seconds = date?.getUTCSeconds?.() ?? 0;
+
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const seconds = date.getUTCSeconds();
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
-    
+
     return {
-      hours: displayHours?.toString?.()?.padStart?.(2, '0') ?? '00',
-      minutes: minutes?.toString?.()?.padStart?.(2, '0') ?? '00',
-      seconds: seconds?.toString?.()?.padStart?.(2, '0') ?? '00',
-      period
+      hours: String(displayHours).padStart(2, '0'),
+      minutes: String(minutes).padStart(2, '0'),
+      seconds: String(seconds).padStart(2, '0'),
+      period,
     };
   };
 
@@ -75,25 +75,21 @@ export default function DigitalClock() {
   const { hours: utcHours, minutes: utcMinutes, seconds: utcSeconds, period: utcPeriod } = formatUTCTime(time);
   const { name: timezoneName, offset: timezoneOffset } = getTimezoneInfo();
 
-  // Calculate week number (ISO 8601)
   const getWeekNumber = (d: Date | null): number => {
     if (!d) return 0;
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-    return Math.ceil((((date.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   };
 
-  // Calculate day of year
   const getDayOfYear = (d: Date | null): number => {
     if (!d) return 0;
     const start = new Date(d.getFullYear(), 0, 0);
     const diff = d.getTime() - start.getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    return Math.floor(diff / oneDay);
+    return Math.floor(diff / 86400000);
   };
 
-  // Calculate quarter
   const getQuarter = (d: Date | null): number => {
     if (!d) return 0;
     return Math.floor(d.getMonth() / 3) + 1;
@@ -106,26 +102,20 @@ export default function DigitalClock() {
   if (!mounted) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Local Time Widget Skeleton */}
         <div className="glass rounded-2xl p-8 glow-purple">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Clock className="w-6 h-6 text-purple-400" />
             <span className="text-sm text-purple-300 uppercase tracking-widest">Browser Time</span>
           </div>
-          <div className="text-5xl md:text-6xl font-light tracking-wider gradient-text text-center">
-            --:--:--
-          </div>
+          <div className="text-5xl md:text-6xl font-light tracking-wider gradient-text text-center">--:--:--</div>
           <div className="text-sm text-gray-400 mt-4 text-center">Loading...</div>
         </div>
-        {/* Unix Time Widget Skeleton */}
         <div className="glass rounded-2xl p-8 glow-cyan">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Timer className="w-6 h-6 text-cyan-400" />
             <span className="text-sm text-cyan-300 uppercase tracking-widest">Unix Timestamp</span>
           </div>
-          <div className="text-5xl md:text-6xl font-mono text-center text-cyan-400 tracking-wider">
-            ----------
-          </div>
+          <div className="text-5xl md:text-6xl font-mono text-center text-cyan-400 tracking-wider">----------</div>
           <div className="text-sm text-gray-400 mt-4 text-center">Loading...</div>
         </div>
       </div>
@@ -154,8 +144,7 @@ export default function DigitalClock() {
           </div>
         </div>
         <div className="text-sm text-gray-400 mt-4 text-center">{date}</div>
-        
-        {/* Timezone Info */}
+
         <div className="border-t border-white/10 pt-4 mt-4">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm">
             <div className="flex items-center gap-2">
@@ -170,7 +159,6 @@ export default function DigitalClock() {
           </div>
         </div>
 
-        {/* Stats Grid - Week, Day of Year, Quarter */}
         <div className="grid grid-cols-3 gap-3 mt-4">
           <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
             <div className="text-2xl font-light text-purple-300">{weekNumber}</div>
@@ -193,12 +181,9 @@ export default function DigitalClock() {
           <Timer className="w-6 h-6 text-cyan-400" />
           <span className="text-sm text-cyan-300 uppercase tracking-widest">Unix Timestamp</span>
         </div>
-        <div className="text-4xl md:text-5xl font-mono text-center text-cyan-400 tracking-wider">
-          {unixTime}
-        </div>
+        <div className="text-4xl md:text-5xl font-mono text-center text-cyan-400 tracking-wider">{unixTime}</div>
         <div className="text-sm text-gray-400 mt-4 text-center">Seconds since January 1, 1970</div>
-        
-        {/* Additional Unix Info */}
+
         <div className="border-t border-white/10 pt-4 mt-4">
           <div className="flex flex-col items-center gap-2 text-sm">
             <div className="flex items-center gap-2">

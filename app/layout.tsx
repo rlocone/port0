@@ -3,7 +3,7 @@ import './globals.css';
 
 export const dynamic = 'force-dynamic';
 
-const siteUrl = process.env.NEXTAUTH_URL || 'https://port0.abacusai.app';
+const siteUrl = process.env.NEXTAUTH_URL || 'https://port0.me';
 const siteName = 'Portal';
 const siteDescription = 'A personal dashboard with ethereal glassmorphism design featuring real-time clocks, weather, and curated content.';
 
@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Portal - Personal Dashboard',
-        type: 'image/png',
+        type: 'image/webp',
       },
     ],
   },
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteName,
     description: siteDescription,
-    images: ['/og-image.png'],
+    images: ['/og-image.webp'],
   },
   robots: {
     index: true,
     follow: true,
   },
   other: {
-    'og:image:secure_url': `${siteUrl}/og-image.png`,
+    'og:image:secure_url': `${siteUrl}/og-image.webp`,
   },
 };
 
@@ -59,7 +59,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script src="https://apps.abacus.ai/chatllm/appllm-lib.js"></script>
       </head>
       <body className="antialiased min-h-screen">
         {/* Background orbs */}

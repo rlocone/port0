@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { ExternalLink, FileText, Loader2, RefreshCw } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface ReportItem {
   title?: string;
@@ -17,12 +16,8 @@ function formatDate(dateString: string | undefined): string {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
     return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit',
     });
   } catch {
     return dateString;
@@ -39,7 +34,6 @@ function getRelativeTime(dateString: string | undefined): string {
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-    
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
@@ -61,11 +55,9 @@ export default function ReportsFeed() {
         setLoading(true);
         setError(null);
         const res = await fetch(`/api/rss?url=${encodeURIComponent('https://rose.abacusai.app/api/feeds/all.xml')}`);
-        if (!res?.ok) {
-          throw new Error('Failed to fetch feed');
-        }
-        const data = await res?.json?.();
-        setItems(data?.items ?? []);
+        if (!res.ok) throw new Error('Failed to fetch feed');
+        const data = await res.json();
+        setItems(data.items ?? []);
       } catch (err) {
         setError('Unable to load reports');
         console.error('RSS fetch error:', err);
@@ -73,17 +65,11 @@ export default function ReportsFeed() {
         setLoading(false);
       }
     };
-
-    fetchFeed?.();
+    fetchFeed();
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="glass rounded-2xl p-6 glow-purple glass-hover transition-all duration-500"
-    >
+    <div className="glass rounded-2xl p-6 glow-purple glass-hover transition-all duration-500 animate-fade-in-up">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <FileText className="w-6 h-6 text-purple-400" />
@@ -107,54 +93,50 @@ export default function ReportsFeed() {
         </div>
       )}
 
-      {!loading && !error && (items?.length ?? 0) === 0 && (
+      {!loading && !error && items.length === 0 && (
         <div className="text-center py-12 text-gray-400">
           <p>No reports found</p>
         </div>
       )}
 
       <div className="space-y-4">
-        {(items ?? [])?.slice?.(0, 5)?.map?.((item, index) => {
-          const relativeTime = getRelativeTime(item?.pubDate);
+        {items.slice(0, 5).map((item, index) => {
+          const relativeTime = getRelativeTime(item.pubDate);
           return (
-            <motion.a
+            <a
               key={index}
-              href={item?.link ?? '#'}
+              href={item.link ?? '#'}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="block p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-purple-500/30 transition-all duration-300 group"
+              className="block p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-purple-500/30 transition-all duration-300 group animate-fade-in-left"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium text-gray-200 group-hover:text-white transition-colors line-clamp-2">
-                    {item?.title ?? 'Untitled'}
+                    {item.title ?? 'Untitled'}
                   </h3>
-                  {item?.description && (
+                  {item.description && (
                     <p className="text-sm text-gray-500 mt-2 line-clamp-2">
-                      {item?.description?.replace?.(/<[^>]*>/g, '')?.slice?.(0, 150) ?? ''}
-                      {(item?.description?.length ?? 0) > 150 ? '...' : ''}
+                      {item.description.replace(/<[^>]*>/g, '').slice(0, 150)}
+                      {item.description.length > 150 ? '...' : ''}
                     </p>
                   )}
-                  {item?.pubDate && (
+                  {item.pubDate && (
                     <div className="flex items-center gap-2 mt-3 text-xs">
-                      <span className="text-gray-500">{formatDate(item?.pubDate)}</span>
+                      <span className="text-gray-500">{formatDate(item.pubDate)}</span>
                       {relativeTime && (
-                        <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">
-                          {relativeTime}
-                        </span>
+                        <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300">{relativeTime}</span>
                       )}
                     </div>
                   )}
                 </div>
                 <ExternalLink className="w-4 h-4 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
               </div>
-            </motion.a>
+            </a>
           );
         })}
       </div>
-    </motion.div>
+    </div>
   );
 }

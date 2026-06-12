@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const siteUrl = process.env.NEXTAUTH_URL || 'https://port0.abacusai.app';
+const siteUrl = process.env.NEXTAUTH_URL || 'https://port0.me';
 
 export const metadata: Metadata = {
   title: 'Resume & CV | James Ortega - IT Support Specialist & AI Systems Engineer',
@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     description: 'Interactive resume showcasing expertise in AI Systems Engineering, Agentic Workflows, IT Support, Linux Administration, and Network Security.',
     images: [
       {
-        url: `${siteUrl}/og-resume.png`,
-        width: 1200,
-        height: 630,
+        url: `${siteUrl}/og-resume.webp`,
+        width: 1376,
+        height: 768,
         alt: 'James Ortega - Resume & CV',
-        type: 'image/png',
+        type: 'image/webp',
       },
     ],
   },
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'James Ortega | IT Support Specialist & AI Systems Engineer',
     description: 'Interactive resume: AI Systems Engineering, Agentic Workflows, IT Support & Network Security expertise.',
-    images: [`${siteUrl}/og-resume.png`],
+    images: [`${siteUrl}/og-resume.webp`],
   },
   robots: {
     index: true,
     follow: true,
   },
   other: {
-    'og:image:secure_url': `${siteUrl}/og-resume.png`,
+    'og:image:secure_url': `${siteUrl}/og-resume.webp`,
   },
 };
 

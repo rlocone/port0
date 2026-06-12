@@ -49,7 +49,7 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <RSSCard
-              feedUrl="https://imzadi.love/api/feed"
+              feedUrl="https://imzadi.love/feed"
               title="Imzadi"
               accentColor="purple"
             />
