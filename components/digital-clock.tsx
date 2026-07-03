@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Clock, Timer } from 'lucide-react';
+import LeapSecondChart from './leap-second-chart';
 
 export default function DigitalClock() {
   const [mounted, setMounted] = useState(false);
@@ -123,76 +124,80 @@ export default function DigitalClock() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Local Time Widget */}
-      <div className="glass rounded-2xl p-8 glow-purple glass-hover transition-all duration-500">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Clock className="w-6 h-6 text-purple-400" />
-          <span className="text-sm text-purple-300 uppercase tracking-widest">Browser Time</span>
-        </div>
-        <div className="flex items-baseline justify-center gap-3 flex-wrap">
-          <div className="flex items-baseline">
-            <span className="text-4xl md:text-5xl font-light tracking-wider text-purple-200">{hours}:{minutes}</span>
-            <span className="text-lg ml-1 text-purple-400">{period}</span>
-            <span className="text-xs ml-2 text-gray-500 uppercase">local</span>
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Local Time Widget */}
+        <div className="glass rounded-2xl p-8 glow-purple glass-hover transition-all duration-500">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Clock className="w-6 h-6 text-purple-400" />
+            <span className="text-sm text-purple-300 uppercase tracking-widest">Browser Time</span>
           </div>
-          <span className="text-4xl md:text-5xl font-thin text-white/15">|</span>
-          <div className="flex items-baseline">
-            <span className="text-4xl md:text-5xl font-light tracking-wider text-cyan-300">{utcHours}:{utcMinutes}</span>
-            <span className="text-lg ml-1 text-cyan-400">{utcPeriod}</span>
-            <span className="text-xs ml-2 text-gray-500 uppercase">utc</span>
-          </div>
-        </div>
-        <div className="text-sm text-gray-400 mt-4 text-center">{date}</div>
-
-        <div className="border-t border-white/10 pt-4 mt-4">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">Timezone:</span>
-              <span className="text-purple-300 font-medium">{timezoneName}</span>
+          <div className="flex items-baseline justify-center gap-3 flex-wrap">
+            <div className="flex items-baseline">
+              <span className="text-4xl md:text-5xl font-light tracking-wider text-purple-200">{hours}:{minutes}</span>
+              <span className="text-lg ml-1 text-purple-400">{period}</span>
+              <span className="text-xs ml-2 text-gray-500 uppercase">local</span>
             </div>
-            <div className="hidden sm:block text-gray-600">•</div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">Offset:</span>
-              <span className="text-cyan-400 font-mono">{timezoneOffset}</span>
+            <span className="text-4xl md:text-5xl font-thin text-white/15">|</span>
+            <div className="flex items-baseline">
+              <span className="text-4xl md:text-5xl font-light tracking-wider text-cyan-300">{utcHours}:{utcMinutes}</span>
+              <span className="text-lg ml-1 text-cyan-400">{utcPeriod}</span>
+              <span className="text-xs ml-2 text-gray-500 uppercase">utc</span>
             </div>
           </div>
+          <div className="text-sm text-gray-400 mt-4 text-center">{date}</div>
+
+          <div className="border-t border-white/10 pt-4 mt-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-500">Timezone:</span>
+                <span className="text-purple-300 font-medium">{timezoneName}</span>
+              </div>
+              <div className="hidden sm:block text-gray-600">•</div>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-500">Offset:</span>
+                <span className="text-cyan-400 font-mono">{timezoneOffset}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mt-4">
+            <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-light text-purple-300">{weekNumber}</div>
+              <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Week</div>
+            </div>
+            <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-light text-cyan-400">{dayOfYear}</div>
+              <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Day of Year</div>
+            </div>
+            <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-light text-green-400">Q{quarter}</div>
+              <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Quarter</div>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 mt-4">
-          <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
-            <div className="text-2xl font-light text-purple-300">{weekNumber}</div>
-            <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Week</div>
+        {/* Unix Timestamp Widget */}
+        <div className="glass rounded-2xl p-8 glow-cyan glass-hover transition-all duration-500">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Timer className="w-6 h-6 text-cyan-400" />
+            <span className="text-sm text-cyan-300 uppercase tracking-widest">Unix Timestamp</span>
           </div>
-          <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
-            <div className="text-2xl font-light text-cyan-400">{dayOfYear}</div>
-            <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Day of Year</div>
-          </div>
-          <div className="text-center p-3 rounded-xl bg-white/[0.02] border border-white/5">
-            <div className="text-2xl font-light text-green-400">Q{quarter}</div>
-            <div className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Quarter</div>
+          <div className="text-4xl md:text-5xl font-mono text-center text-cyan-400 tracking-wider">{unixTime}</div>
+          <div className="text-sm text-gray-400 mt-4 text-center">Seconds since January 1, 1970</div>
+
+          <div className="border-t border-white/10 pt-4 mt-4">
+            <div className="flex flex-col items-center gap-2 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-gray-500">Milliseconds:</span>
+                <span className="text-cyan-300 font-mono">{time ? time.getTime() : 0}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Unix Timestamp Widget */}
-      <div className="glass rounded-2xl p-8 glow-cyan glass-hover transition-all duration-500">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Timer className="w-6 h-6 text-cyan-400" />
-          <span className="text-sm text-cyan-300 uppercase tracking-widest">Unix Timestamp</span>
-        </div>
-        <div className="text-4xl md:text-5xl font-mono text-center text-cyan-400 tracking-wider">{unixTime}</div>
-        <div className="text-sm text-gray-400 mt-4 text-center">Seconds since January 1, 1970</div>
-
-        <div className="border-t border-white/10 pt-4 mt-4">
-          <div className="flex flex-col items-center gap-2 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">Milliseconds:</span>
-              <span className="text-cyan-300 font-mono">{time ? time.getTime() : 0}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <LeapSecondChart />
     </div>
   );
 }
