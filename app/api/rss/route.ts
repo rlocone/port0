@@ -18,6 +18,19 @@ interface FeedItem {
   author?: string;
 }
 
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number.parseInt(dec, 10)));
+}
+
 function parseRSSItems(xml: string): FeedItem[] {
   const items: FeedItem[] = [];
   const itemRegex = /<item[^>]*>([\s\S]*?)<\/item>/gi;
@@ -31,10 +44,10 @@ function parseRSSItems(xml: string): FeedItem[] {
     const pubDateMatch = itemXml.match(/<pubDate[^>]*>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/pubDate>/i);
 
     items.push({
-      title: titleMatch?.[1]?.trim() ?? '',
-      description: descMatch?.[1]?.trim() ?? '',
-      link: linkMatch?.[1]?.trim() ?? '',
-      pubDate: pubDateMatch?.[1]?.trim() ?? '',
+      title: decodeHtmlEntities(titleMatch?.[1]?.trim() ?? ''),
+      description: decodeHtmlEntities(descMatch?.[1]?.trim() ?? ''),
+      link: decodeHtmlEntities(linkMatch?.[1]?.trim() ?? ''),
+      pubDate: decodeHtmlEntities(pubDateMatch?.[1]?.trim() ?? ''),
     });
   }
 
@@ -56,11 +69,11 @@ function parseAtomItems(xml: string): FeedItem[] {
     const authorMatch = entryXml.match(/<author[^>]*>[\s\S]*?<name[^>]*>([\s\S]*?)<\/name>[\s\S]*?<\/author>/i);
 
     items.push({
-      title: titleMatch?.[1]?.trim() ?? '',
-      description: summaryMatch?.[1]?.trim() ?? '',
-      link: linkMatch?.[1]?.trim() ?? '',
-      pubDate: dateMatch?.[1]?.trim() ?? '',
-      author: authorMatch?.[1]?.trim() ?? '',
+      title: decodeHtmlEntities(titleMatch?.[1]?.trim() ?? ''),
+      description: decodeHtmlEntities(summaryMatch?.[1]?.trim() ?? ''),
+      link: decodeHtmlEntities(linkMatch?.[1]?.trim() ?? ''),
+      pubDate: decodeHtmlEntities(dateMatch?.[1]?.trim() ?? ''),
+      author: decodeHtmlEntities(authorMatch?.[1]?.trim() ?? ''),
     });
   }
 
@@ -84,10 +97,10 @@ function parseJSONFeed(data: Record<string, unknown>): FeedItem[] {
 
   for (const item of feedItems) {
     items.push({
-      title: (item.title ?? item.name ?? '') as string,
-      description: (item.description ?? item.summary ?? item.content_text ?? item.content_html ?? item.content ?? '') as string,
-      link: (item.link ?? item.url ?? item.href ?? '') as string,
-      pubDate: (item.pubDate ?? item.published ?? item.date ?? item.date_published ?? '') as string,
+      title: decodeHtmlEntities((item.title ?? item.name ?? '') as string),
+      description: decodeHtmlEntities((item.description ?? item.summary ?? item.content_text ?? item.content_html ?? item.content ?? '') as string),
+      link: decodeHtmlEntities((item.link ?? item.url ?? item.href ?? '') as string),
+      pubDate: decodeHtmlEntities((item.pubDate ?? item.published ?? item.date ?? item.date_published ?? '') as string),
     });
   }
 
