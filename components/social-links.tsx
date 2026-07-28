@@ -16,7 +16,7 @@ const defaultLinks: SocialLink[] = [
   { id: '2', platform: 'GitHub', url: 'https://github.com/rlocone' },
   { id: '3', platform: 'Imzadi', url: 'https://imzadi.love/', favicon: 'https://imzadi.love/favicon.svg' },
   { id: '4', platform: 'PhiPi', url: 'https://phipi.io/', favicon: 'https://phipi.io/favicon.svg' },
-  { id: '5', platform: 'Rose', url: 'https://rose.abacusai.app/', favicon: 'https://rose.abacusai.app/favicon.svg' },
+  { id: '5', platform: 'Rose', url: 'https://mission-control.phipi.io/', favicon: '' },
   { id: '6', platform: 'PhiPi Tech', url: 'https://phipi.me/', favicon: 'https://phipi.me/favicon.svg' },
 ];
 

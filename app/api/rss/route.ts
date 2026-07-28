@@ -6,7 +6,7 @@ const ALLOWED_FEED_DOMAINS = [
   'imzadi.love',
   'phipi.me',
   'phipi.io',
-  'rose.abacusai.app',
+  'mission-control.phipi.io',
   'github.com',
 ];
 

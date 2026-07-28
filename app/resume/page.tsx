@@ -171,12 +171,12 @@ export default function ResumePage() {
                   <p className="text-purple-400">Agentic Research Console</p>
                 </div>
                 <a 
-                  href="https://rose.abacusai.app" 
+                  href="https://mission-control.phipi.io"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1 mt-2 md:mt-0"
                 >
-                  rose.abacusai.app
+                  mission-control.phipi.io
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -222,12 +222,12 @@ export default function ResumePage() {
                   <p className="text-cyan-400">Central AI Gateway</p>
                 </div>
                 <a 
-                  href="https://port0.abacusai.app" 
+                  href="https://port0.me"
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1 mt-2 md:mt-0"
                 >
-                  port0.abacusai.app
+                  port0.me
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>

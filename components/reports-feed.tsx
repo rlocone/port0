@@ -54,7 +54,7 @@ export default function ReportsFeed() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`/api/rss?url=${encodeURIComponent('https://rose.abacusai.app/api/feeds/all.xml')}`);
+        const res = await fetch(`/api/rss?url=${encodeURIComponent('https://mission-control.phipi.io/api/feeds/all.xml')}`);
         if (!res.ok) throw new Error('Failed to fetch feed');
         const data = await res.json();
         setItems(data.items ?? []);
