@@ -4,3 +4,4 @@ node_modules/
 .env
 .deploy/
 mockups/
+*.tsbuildinfo

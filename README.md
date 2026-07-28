@@ -18,7 +18,7 @@ Built with [Next.js](https://nextjs.org/) (App Router), [React](https://react.de
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 16 (App Router) |
+| Framework | Next.js 14 (App Router) |
 | Language | TypeScript |
 | Styling | Tailwind CSS + custom CSS animations |
 | Icons | Lucide React |

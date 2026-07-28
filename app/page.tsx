@@ -1,4 +1,6 @@
 import DigitalClock from '@/components/digital-clock';
+import AstroSection from '@/components/astro-section';
+import SpaceWeather from '@/components/space-weather';
 import RSSCard from '@/components/rss-card';
 import WeatherCard from '@/components/weather-card';
 import SocialLinks from '@/components/social-links';
@@ -34,6 +36,16 @@ export default function Home() {
         {/* Clock Section */}
         <section className="animate-float" style={{ animationDuration: '8s' }}>
           <DigitalClock />
+        </section>
+
+        {/* Astro Section — Solar, Lunar, Seasons */}
+        <section>
+          <AstroSection />
+        </section>
+
+        {/* Space Weather Section */}
+        <section>
+          <SpaceWeather />
         </section>
 
         {/* Weather & Social Section */}

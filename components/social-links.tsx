@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ExternalLink, Facebook, Twitter, Instagram, Linkedin, Github, Youtube, Globe } from 'lucide-react';
-import Image from 'next/image';
+
 
 export interface SocialLink {
   id: string;
@@ -33,8 +33,16 @@ function FaviconIcon({ favicon, platform }: { favicon?: string; platform: string
   const [error, setError] = useState(false);
   if (!favicon || error) return platformIcons[platform] ?? <Globe className="w-5 h-5" />;
   return (
-    <Image src={favicon} alt={platform} width={20} height={20} className="w-5 h-5 rounded-sm"
-      onError={() => setError(true)} unoptimized />
+    <img
+      src={favicon}
+      alt={platform}
+      width={20}
+      height={20}
+      className="w-5 h-5 rounded-sm object-contain"
+      onError={() => setError(true)}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+    />
   );
 }
 
