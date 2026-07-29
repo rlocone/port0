@@ -10,7 +10,7 @@ Built with [Next.js](https://nextjs.org/) (App Router), [React](https://react.de
 - **Weather** — Live Tallahassee, FL weather via [Open-Meteo](https://open-meteo.com/) (free, no API key required)
 - **RSS feeds** — Curated feeds from Imzadi and PhiPi, fetched server-side via a proxy with SSRF protection
 - **Rose Reports** — Latest research reports from the Mission Control agent dashboard
-- **GitHub commits** — Recent commits from the Mission Control repository
+- **GitHub repos** — Recent commits from selected rlocone repositories
 - **Social links** — Configurable link buttons (Facebook, GitHub, Imzadi, PhiPi, Rose, etc.)
 - **Interactive resume** — Full interactive CV with skills, experience, certifications, and downloadable PDF
 
