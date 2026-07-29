@@ -28,6 +28,22 @@ export default function Home() {
             <FileText className="w-4 h-4" />
             <span className="text-sm">Resume & CV</span>
           </Link>
+
+          <a
+            href="https://uptime.phipi.io/api/sig/eXa"
+            target="_blank"
+            rel="noreferrer"
+            className="mx-auto mt-4 block w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-black/25 p-2.5 shadow-[0_0_30px_rgba(168,139,250,0.12)] backdrop-blur-sm transition-transform duration-300 hover:scale-[1.01]"
+            aria-label="Open the live Uptime Project signature badge in a new tab"
+          >
+            <img
+              src="https://uptime.phipi.io/api/sig/eXa"
+              alt="Uptime Project signature badge for eXa"
+              className="block h-auto w-full rounded-xl"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+          </a>
         </div>
       </header>
 
@@ -84,7 +100,7 @@ export default function Home() {
         {/* GitHub Commits Section */}
         <section>
           <h2 className="text-xl font-light text-gray-300 mb-6 text-center">
-            Latest <span className="gradient-text">Commits</span>
+            Latest <span className="gradient-text">Repos</span>
           </h2>
           <CommitsFeed />
         </section>

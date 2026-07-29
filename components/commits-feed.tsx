@@ -9,7 +9,38 @@ interface CommitItem {
   link?: string;
   pubDate?: string;
   author?: string;
+  repoName?: string;
+  repoUrl?: string;
 }
+
+interface RepoSource {
+  name: string;
+  repoUrl: string;
+  feedUrl: string;
+}
+
+const RLOCONE_REPOS: RepoSource[] = [
+  {
+    name: 'port0',
+    repoUrl: 'https://github.com/rlocone/port0',
+    feedUrl: 'https://github.com/rlocone/port0/commits/main.atom',
+  },
+  {
+    name: 'ImZaDi',
+    repoUrl: 'https://github.com/rlocone/ImZaDi',
+    feedUrl: 'https://github.com/rlocone/ImZaDi/commits/main.atom',
+  },
+  {
+    name: 'phpip.me-Contant-Hub',
+    repoUrl: 'https://github.com/rlocone/phpip.me-Contant-Hub',
+    feedUrl: 'https://github.com/rlocone/phpip.me-Contant-Hub/commits/master.atom',
+  },
+  {
+    name: 'mission_control',
+    repoUrl: 'https://github.com/rlocone/mission_control',
+    feedUrl: 'https://github.com/rlocone/mission_control/commits/main.atom',
+  },
+];
 
 function formatDate(dateString: string | undefined): string {
   if (!dateString) return '';
@@ -60,6 +91,25 @@ function extractCommitMessage(title: string | undefined): string {
   return title;
 }
 
+async function fetchRepoCommits(repo: RepoSource): Promise<CommitItem[]> {
+  try {
+    const res = await fetch(`/api/rss?url=${encodeURIComponent(repo.feedUrl)}`);
+    if (!res.ok) {
+      return [];
+    }
+
+    const data = await res.json();
+    return (data.items ?? []).map((item: CommitItem) => ({
+      ...item,
+      repoName: repo.name,
+      repoUrl: repo.repoUrl,
+    }));
+  } catch (error) {
+    console.error(`Commits fetch error for ${repo.name}:`, error);
+    return [];
+  }
+}
+
 export default function CommitsFeed() {
   const [items, setItems] = useState<CommitItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,12 +120,17 @@ export default function CommitsFeed() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`/api/rss?url=${encodeURIComponent('https://github.com/rlocone/mission_control/commits/main.atom')}`);
-        if (!res.ok) {
-          throw new Error('Failed to fetch feed');
-        }
-        const data = await res.json();
-        setItems(data.items ?? []);
+        const responses = await Promise.all(RLOCONE_REPOS.map(fetchRepoCommits));
+        const merged = responses
+          .flat()
+          .sort((a: CommitItem, b: CommitItem) => {
+            const aTime = a.pubDate ? new Date(a.pubDate).getTime() : 0;
+            const bTime = b.pubDate ? new Date(b.pubDate).getTime() : 0;
+            return bTime - aTime;
+          })
+          .slice(0, 5);
+
+        setItems(merged);
       } catch (err) {
         setError('Unable to load commits');
         console.error('Commits fetch error:', err);
@@ -94,15 +149,15 @@ export default function CommitsFeed() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <GitCommit className="w-6 h-6 text-cyan-400" />
-          <h2 className="text-lg font-medium text-cyan-300">Mission Control Commits</h2>
+          <h2 className="text-lg font-medium text-cyan-300">rlocone Repos</h2>
         </div>
         <a
-          href="https://github.com/rlocone/mission_control"
+          href="https://github.com/rlocone"
           target="_blank"
           rel="noopener noreferrer"
           className="text-xs text-gray-500 hover:text-cyan-400 transition-colors flex items-center gap-1"
         >
-          <span>View Repo</span>
+          <span>View rlocone</span>
           <ExternalLink className="w-3 h-3" />
         </a>
       </div>
@@ -140,8 +195,16 @@ export default function CommitsFeed() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
                     <div className="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0" />
+                    {item.repoName && (
+                      <span
+                        title={item.repoUrl}
+                        className="px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 text-[11px] font-medium"
+                      >
+                        {item.repoName}
+                      </span>
+                    )}
                     <p className="font-medium text-gray-200 group-hover:text-white transition-colors line-clamp-2 text-sm">
                       {commitMessage}
                     </p>
