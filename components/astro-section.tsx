@@ -103,27 +103,20 @@ export default function AstroSection() {
     );
   }
 
-  // DST transition: next spring-forward (Mar) or fall-back (Nov)
   const now = new Date();
   const year = now.getFullYear();
-  // US DST: 2nd Sunday in March, 1st Sunday in November
   const dstSpring = getNthWeekdayOfMonth(year, 2, 0, 2);
   const dstFall = getNthWeekdayOfMonth(year, 10, 0, 1);
 
   let nextDst: { name: string; date: Date } | null = null;
   if (dstSpring > now) nextDst = { name: 'Spring Forward', date: dstSpring };
   else if (dstFall > now) nextDst = { name: 'Fall Back', date: dstFall };
-  else {
-    nextDst = { name: 'Spring Forward', date: getNthWeekdayOfMonth(year + 1, 2, 0, 2) };
-  }
+  else nextDst = { name: 'Spring Forward', date: getNthWeekdayOfMonth(year + 1, 2, 0, 2) };
 
   const dstDays = Math.floor((nextDst.date.getTime() - now.getTime()) / 86400000);
-
-  // Year 2038 problem countdown
   const y2038 = new Date(2038, 0, 19, 3, 14, 7);
   const y2038Days = Math.floor((y2038.getTime() - now.getTime()) / 86400000);
 
-  // Sidereal time (GMST approximation)
   const jd = 367 * now.getUTCFullYear() - Math.floor(7 * (now.getUTCFullYear() + Math.floor((now.getUTCMonth() + 10) / 12)) / 4)
     + Math.floor(275 * (now.getUTCMonth() + 1) / 9) + now.getUTCDate() - 730531.5;
   const gmst = (18.697374558 + 24.06570982441908 * jd) % 24;
@@ -134,7 +127,6 @@ export default function AstroSection() {
   return (
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Solar Card */}
         <div className="glass rounded-2xl p-6 glow-orange glass-hover transition-all duration-500">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sun className="w-5 h-5 text-orange-400" />
@@ -190,7 +182,6 @@ export default function AstroSection() {
           </div>
         </div>
 
-        {/* Lunar Card */}
         <div className="glass rounded-2xl p-6 glow-blue glass-hover transition-all duration-500">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Moon className="w-5 h-5 text-blue-400" />
@@ -220,9 +211,7 @@ export default function AstroSection() {
         </div>
       </div>
 
-      {/* Second row: Season + DST + Y2038 + Sidereal */}
       <div className="grid md:grid-cols-4 gap-4">
-        {/* Season Countdown */}
         <div className="glass rounded-2xl p-4 glow-green glass-hover transition-all duration-500 text-center">
           <div className="text-xl mb-1">{astro.nextSeason.emoji}</div>
           <div className="text-sm text-gray-300">{astro.nextSeason.name}</div>
@@ -230,7 +219,6 @@ export default function AstroSection() {
           <div className="text-xs text-gray-500">days away</div>
         </div>
 
-        {/* DST Countdown */}
         <div className="glass rounded-2xl p-4 glow-purple glass-hover transition-all duration-500 text-center">
           <div className="text-xl mb-1">{nextDst.name === 'Spring Forward' ? '⏩' : '⏪'}</div>
           <div className="text-sm text-gray-300">{nextDst.name}</div>
@@ -238,7 +226,6 @@ export default function AstroSection() {
           <div className="text-xs text-gray-500">days away</div>
         </div>
 
-        {/* Y2038 Countdown */}
         <div className="glass rounded-2xl p-4 glow-red glass-hover transition-all duration-500 text-center">
           <div className="text-xl mb-1">💥</div>
           <div className="text-sm text-gray-300">Year 2038 Problem</div>
@@ -246,7 +233,6 @@ export default function AstroSection() {
           <div className="text-xs text-gray-500">days remaining</div>
         </div>
 
-        {/* Sidereal Time */}
         <div className="glass rounded-2xl p-4 glow-cyan glass-hover transition-all duration-500 text-center">
           <div className="text-xl mb-1">🌌</div>
           <div className="text-sm text-gray-300">GMST</div>

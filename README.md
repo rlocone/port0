@@ -1,90 +1,237 @@
-# Portal (port0.me)
+<div align="center">
 
-A personal dashboard with ethereal glassmorphism design featuring real-time clocks, weather, curated RSS feeds, and an interactive resume.
+<!-- Portal Header -->
+<br />
 
-Built with [Next.js](https://nextjs.org/) (App Router), [React](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/), and [Lucide icons](https://lucide.dev/).
-
-## Features
-
-- **Digital clock** — Real-time browser time, UTC time, Unix timestamp, week number, day of year, quarter
-- **Weather** — Live Tallahassee, FL weather via [Open-Meteo](https://open-meteo.com/) (free, no API key required)
-- **RSS feeds** — Curated feeds from Imzadi and PhiPi, fetched server-side via a proxy with SSRF protection
-- **Rose Reports** — Latest research reports from the Mission Control agent dashboard
-- **GitHub repos** — Recent commits from selected rlocone repositories
-- **Social links** — Configurable link buttons (Facebook, GitHub, Imzadi, PhiPi, Rose, etc.)
-- **Interactive resume** — Full interactive CV with skills, experience, certifications, and downloadable PDF
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS + custom CSS animations |
-| Icons | Lucide React |
-| Data fetching | Server-side API routes + client components |
-| Weather | Open-Meteo (free, no API key) |
-| RSS | Custom proxy with domain allowlist |
-| PDF | Static file (`CV_Revised.pdf`) |
-
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Copy environment variables
-cp .env.example .env
-
-# Start development server
-npm run dev
+```
+ ██████╗  ██████╗ ██████╗ ████████╗ █████╗ ██╗     
+ ██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔══██╗██║     
+ ██████╔╝██║   ██║██████╔╝   ██║   ███████║██║     
+ ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██╔══██║██║     
+ ██║     ╚██████╔╝██║  ██║   ██║   ██║  ██║███████╗
+ ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝
 ```
 
-The site will be available at `http://localhost:3000`.
+### ✦ Your personal gateway to inspiration ✦
 
-### Environment Variables
+**A glassmorphism-styled personal dashboard & digital resume — built with Next.js 14, Tailwind CSS, and Framer Motion.**
+
+[![Live](https://img.shields.io/badge/▸_LIVE-port0.me-7c3aed?style=for-the-badge&labelColor=0a0a0f)](https://port0.me)
+[![Next.js](https://img.shields.io/badge/Next.js-14-0a0a0f?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-0a0a0f?style=for-the-badge&logo=typescript&logoColor=06b6d4)](https://www.typescriptlang.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind-3.3-0a0a0f?style=for-the-badge&logo=tailwindcss&logoColor=06b6d4)](https://tailwindcss.com)
+
+<br />
+
+<img src="https://img.shields.io/badge/━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━-7c3aed?style=flat-square" />
+
+</div>
+
+<br />
+
+## ✦ Overview
+
+**Portal** is a personal start-page and digital resume hosted at [port0.me](https://port0.me). It merges a dark, ethereal aesthetic — deep purples (`#7c3aed`), electric cyans (`#06b6d4`), and frosted-glass panels — with practical, real-time information widgets. Everything renders server-side where possible and hydrates gracefully on the client.
+
+<br />
+
+## ✦ Features
+
+### 🕐 Real-Time Digital Clock
+A precision clock card displaying the current time with pipe-separated metadata: **Unix timestamp** `|` **ISO 8601 date** `|` **week number** `|` **day of year** `|` **current quarter**. Updates every second with smooth transitions.
+
+### 🌦 Weather Card
+Geolocation-aware weather widget pulling real-time conditions, temperature, humidity, and wind speed. Falls back to a default location when permissions are unavailable.
+
+### 🔗 Social Links Hub
+Customizable social links grid with automatic favicon fetching and platform icon detection. Links are persisted in `localStorage` and can be managed from an admin panel. Default links include Facebook, GitHub, and personal project sites.
+
+### 📰 RSS Feed Reader
+Dual RSS feed cards pulling the latest posts from [Imzadi](https://imzadi.love) and [PhiPi Tech](https://phipi.me) through a server-side proxy at `/api/rss`. Feeds are parsed and rendered with publication dates and external links.
+
+### 📊 Reports Feed
+Aggregates the latest published reports from Mission Control with formatted dates and direct links to each report.
+
+### 💻 GitHub Commits Feed
+Displays recent commit activity across repositories, showing commit messages, authors, and timestamps — pulled via RSS and rendered in a clean timeline.
+
+### 📄 Interactive Resume
+A full-page, animated resume at `/resume` featuring:
+- **Professional summary** with role title and contact details
+- **Work experience** timeline with expandable role descriptions
+- **Technical skills** organized by domain (Security, Networking, Systems, etc.)
+- **Education & certifications** with institution details
+- **One-click PDF download** of a polished CV via `/api/generate-cv-pdf`
+- **Open Graph & Twitter Card** metadata for rich social previews when shared
+
+### 📈 Eco-Dash
+A dedicated real-time economic indicators dashboard at `/eco` featuring live macro snapshots, debt and demographics, Treasury yields, global indices, commodities, FX, and tabbed labor/inflation/activity deep-dives. It uses server-side FRED and market proxies with short polling intervals and glassmorphism cards that match the rest of Portal.
+
+### 🔧 Admin Panel
+A lightweight admin page at `/admin` for managing social links and dashboard configuration without touching code.
+
+<br />
+
+## ✦ Tech Stack
+
+```
+Framework       Next.js 14 (App Router, Server Components)
+Language        TypeScript 5.2
+Styling         Tailwind CSS 3.3 + custom glassmorphism utilities
+Animations      Framer Motion 10
+UI Components   Radix UI primitives + shadcn/ui
+Icons           Lucide React
+PDF Generation  Puppeteer/Playwright HTML-to-PDF
+Deployment      Docker / VPS Hosting
+```
+
+<br />
+
+## ✦ Project Structure
+
+```
+portal/nextjs_space/
+├── app/
+│   ├── layout.tsx              # Root layout, OG metadata, global fonts
+│   ├── page.tsx                # Homepage — clock, weather, feeds, links
+│   ├── globals.css             # Tailwind + glassmorphism + glow utilities
+│   ├── resume/
+│   │   ├── layout.tsx          # Resume-specific OG/Twitter metadata
+│   │   └── page.tsx            # Full interactive resume page
+│   ├── eco/
+│   │   └── page.tsx            # Eco-Dash economic indicators dashboard
+│   └── api/
+│       ├── weather/route.ts    # Weather data proxy
+│       ├── rss/route.ts        # RSS feed fetcher & parser
+│       └── generate-cv-pdf/    # PDF generation endpoint
+│           └── route.ts
+├── components/
+│   ├── digital-clock.tsx       # Real-time clock with metadata
+│   ├── weather-card.tsx        # Geolocation weather widget
+│   ├── social-links.tsx        # Customizable social grid
+│   ├── rss-card.tsx            # RSS feed display card
+│   ├── reports-feed.tsx        # Reports aggregator
+│   ├── commits-feed.tsx        # GitHub commits timeline
+│   └── ui/                     # shadcn/ui component library
+├── public/
+│   ├── favicon.svg             # Portal favicon
+│   ├── og-image.png            # Open Graph image (homepage)
+│   ├── og-resume.png           # Open Graph image (resume)
+│   └── CV_Revised.pdf          # Downloadable CV
+├── next.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── postcss.config.js
+```
+
+<br />
+
+## ✦ Design System
+
+The visual language is built on a **dark ethereal glassmorphism** theme:
+
+| Token | Value | Usage |
+|---|---|---|
+| `--background` | `#0a0a0f` | Base background |
+| `--primary` | `hsl(270 60% 60%)` | Purple accents, headings, glows |
+| `--secondary` | `hsl(190 80% 50%)` | Cyan accents, secondary highlights |
+| `--card` | `hsl(0 0% 8%)` | Card surfaces |
+| `--border` | `hsl(0 0% 20%)` | Subtle borders |
+| `--muted` | `hsl(0 0% 15%)` | Muted backgrounds |
+
+The background uses a **135° gradient** from `#0a0a0f` → `#1a0a2e` → `#0f1419`, overlaid with animated gradient orbs for depth. Glass panels use `backdrop-blur` with low-opacity white borders to create the frosted effect.
+
+Key CSS utilities:
+- `.glass` — frosted glass panel with blur + subtle border
+- `.gradient-text` — purple-to-cyan gradient text
+- `.glow-purple` / `.glow-cyan` — colored box-shadow glows
+- `.animate-float` — gentle floating animation for cards
+
+<br />
+
+## ✦ API Routes
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/weather` | `GET` | Proxies weather data based on lat/lon query params |
+| `/api/rss` | `GET` | Fetches and parses RSS feeds from a given `url` param |
+| `/api/eco` | `GET` | Aggregates FRED macro data, Treasury rates, and market proxies for Eco-Dash |
+| `/api/generate-cv-pdf` | `GET` | Generates a styled PDF of the resume via HTML-to-PDF |
+
+<br />
+
+## ✦ Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/rlocone/portal.git
+cd portal/nextjs_space
+
+# Install dependencies
+yarn install
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Add your API keys (including FRED_API_KEY)
+
+# Start the development server
+yarn dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
+
+<br />
+
+## ✦ Environment Variables
 
 | Variable | Required | Description |
 |---|---|---|
-| `NEXTAUTH_URL` | Yes | Canonical site URL (e.g. `https://port0.me`) |
-| `NEXT_PUBLIC_ADMIN_PASSWORD` | No | Admin panel password (panel was removed; kept for future use) |
+| `NEXTAUTH_URL` | Yes | Production URL (e.g., `https://port0.me`) |
+| `WEATHER_API_KEY` | No | OpenWeatherMap API key for the weather widget |
+| `FRED_API_KEY` | Yes for `/eco` | FRED API key used by the Eco-Dash server route |
 
-## Project Structure
+<br />
 
-```
-.
-├── app/
-│   ├── api/
-│   │   ├── generate-cv-pdf/   # Serves static CV PDF
-│   │   ├── rss/                # RSS/Atom/JSON feed proxy with domain allowlist
-│   │   └── weather/            # Open-Meteo weather API proxy
-│   ├── resume/                 # Interactive resume page
-│   ├── globals.css             # Global styles, glassmorphism, animations
-│   ├── layout.tsx              # Root layout with OG metadata
-│   └── page.tsx                # Home page (dashboard)
-├── components/
-│   ├── commits-feed.tsx        # GitHub commits feed widget
-│   ├── digital-clock.tsx       # Clock + time info widget
-│   ├── reports-feed.tsx        # Rose reports feed widget
-│   ├── rss-card.tsx            # Reusable RSS feed card
-│   ├── social-links.tsx        # Social/media link buttons
-│   └── weather-card.tsx        # Weather display widget
-├── public/
-│   ├── CV_Revised.pdf          # Static CV PDF for download
-│   ├── favicon.svg
-│   ├── og-image.webp           # Open Graph image (13 KB)
-│   └── og-resume.webp          # Resume OG image (40 KB)
-└── next.config.js              # Next.js configuration
-```
+## ✦ Eco-Dash Series IDs
 
-## History
+**Macro snapshot:** `GDPC1`, `CPIAUCSL`, `UNRATE`, `FEDFUNDS`, `DGS10`
 
-This site was originally hosted on Abacus AI's platform (`port0.abacusai.app`) and has since been migrated to a standalone domain (`port0.me`). The codebase underwent a significant cleanup:
+**Debt & demographics:** `GFDEBTN`, `GFDEGDQ188S`, `POPTHM`, `MTSDS133FMS`
 
-- **Removed:** 40+ unused shadcn/ui components, Prisma schema with no models, Abacus AI chat widget, HTML-to-PDF API integration, admin panel with hardcoded password
-- **Fixed:** SSRF vulnerability in RSS proxy (domain allowlist), weather API now uses free Open-Meteo (no key needed), hardcoded domain references updated
-- **Optimized:** Framer Motion replaced with CSS animations (saved 3.8 MB dependency), OG images compressed to WebP (97% savings), deprecated Next.js config cleaned
+**Treasury curve:** `DGS3MO`, `DGS2`, `DGS5`, `DGS7`, `DGS10`, `DGS20`, `DGS30`
 
-## License
+**Labor:** `PAYEMS`, `ICSA`, `CIVPART`, `JTSJOL`
 
-MIT
+**Inflation:** `PCEPI`, `PCEPILFE`
+
+**Activity:** `INDPRO`, `HOUST`, `RETAILSMNSA`, `UMCSENT`
+
+**Market data:** Yahoo Finance chart endpoint for indices, commodities, and FX symbols listed in the Eco-Dash footer.
+
+
+## ✦ Deployment
+
+Portal is deployed as a standalone Next.js bundle optimized for production with server-side rendering, serving traffic at [port0.me](https://port0.me).
+
+The build process creates a standalone bundle with Server-Side Rendering support.
+
+<br />
+
+## ✦ License
+
+This project is personal and not currently licensed for redistribution.
+
+<br />
+
+<div align="center">
+
+<img src="https://img.shields.io/badge/━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━-7c3aed?style=flat-square" />
+
+<br />
+<br />
+
+**Crafted with 💜 in the ethereal realm**
+
+[port0.me](https://port0.me)
+
+</div>

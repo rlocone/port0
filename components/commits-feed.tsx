@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ExternalLink, GitCommit, Loader2 } from 'lucide-react';
+import { ExternalLink, GitCommit, Loader2, User } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface CommitItem {
   title?: string;
@@ -70,7 +71,7 @@ function getRelativeTime(dateString: string | undefined): string {
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-
+    
     if (diffMins < 1) return 'Just now';
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
@@ -84,22 +85,29 @@ function getRelativeTime(dateString: string | undefined): string {
 
 function extractCommitMessage(title: string | undefined): string {
   if (!title) return 'Untitled commit';
-  const parts = title.split(' - ');
+  const decoded = title
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+  // GitHub atom feed titles often include repo path, extract just the message
+  const parts = decoded.split(' - ');
   if (parts.length > 1) {
     return parts.slice(1).join(' - ');
   }
-  return title;
+  return decoded;
 }
 
 async function fetchRepoCommits(repo: RepoSource): Promise<CommitItem[]> {
   try {
     const res = await fetch(`/api/rss?url=${encodeURIComponent(repo.feedUrl)}`);
-    if (!res.ok) {
+    if (!res?.ok) {
       return [];
     }
 
-    const data = await res.json();
-    return (data.items ?? []).map((item: CommitItem) => ({
+    const data = await res?.json?.();
+    return (data?.items ?? []).map((item: CommitItem) => ({
       ...item,
       repoName: repo.name,
       repoUrl: repo.repoUrl,
@@ -139,12 +147,15 @@ export default function CommitsFeed() {
       }
     };
 
-    fetchFeed();
+    fetchFeed?.();
   }, []);
 
   return (
-    <div
-      className="glass rounded-2xl p-6 glow-cyan glass-hover transition-all duration-500 animate-fade-in-up"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="glass rounded-2xl p-6 glow-cyan glass-hover transition-all duration-500"
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -174,35 +185,37 @@ export default function CommitsFeed() {
         </div>
       )}
 
-      {!loading && !error && items.length === 0 && (
+      {!loading && !error && (items?.length ?? 0) === 0 && (
         <div className="text-center py-12 text-gray-400">
           <p>No commits found</p>
         </div>
       )}
 
       <div className="space-y-3">
-        {items.slice(0, 5).map((item, index) => {
-          const relativeTime = getRelativeTime(item.pubDate);
-          const commitMessage = extractCommitMessage(item.title);
+        {(items ?? [])?.slice?.(0, 5)?.map?.((item, index) => {
+          const relativeTime = getRelativeTime(item?.pubDate);
+          const commitMessage = extractCommitMessage(item?.title);
           return (
-            <a
+            <motion.a
               key={index}
-              href={item.link ?? '#'}
+              href={item?.link ?? '#'}
               target="_blank"
               rel="noopener noreferrer"
-              className="block p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 group animate-fade-in-left"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="block p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 group"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
                     <div className="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0" />
-                    {item.repoName && (
+                    {item?.repoName && (
                       <span
-                        title={item.repoUrl}
+                        title={item?.repoUrl}
                         className="px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 text-[11px] font-medium"
                       >
-                        {item.repoName}
+                        {item?.repoName}
                       </span>
                     )}
                     <p className="font-medium text-gray-200 group-hover:text-white transition-colors line-clamp-2 text-sm">
@@ -210,8 +223,8 @@ export default function CommitsFeed() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3 text-xs">
-                    {item.pubDate && (
-                      <span className="text-gray-500">{formatDate(item.pubDate)}</span>
+                    {item?.pubDate && (
+                      <span className="text-gray-500">{formatDate(item?.pubDate)}</span>
                     )}
                     {relativeTime && (
                       <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300">
@@ -222,10 +235,10 @@ export default function CommitsFeed() {
                 </div>
                 <ExternalLink className="w-4 h-4 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
               </div>
-            </a>
+            </motion.a>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }

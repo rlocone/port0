@@ -23,6 +23,7 @@
         "name": "next"
       }
     ],
+  "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*"
@@ -34,8 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".build/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".build/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

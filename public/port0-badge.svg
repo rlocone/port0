@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="80" role="img" aria-label="Uptime Project signature for eXa">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f0f2a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="80" rx="6" fill="url(#bg)" stroke="#00d4ff" stroke-width="1" stroke-opacity="0.4"/>
+  <text x="15" y="22" font-family="monospace" font-size="11" fill="#00d4ff" font-weight="bold">UPTIME PROJECT</text>
+  <text x="15" y="42" font-family="monospace" font-size="13" fill="#e0e0e0">eXa</text>
+  <text x="15" y="62" font-family="monospace" font-size="10" fill="#888">Rank #1 | 5 hosts | 2m 6h 58m 42s</text>
+  <text x="385" y="22" font-family="monospace" font-size="10" fill="#39ff14" text-anchor="end">#1</text>
+  <rect x="300" y="35" width="85" height="20" rx="3" fill="#00d4ff" fill-opacity="0.1" stroke="#00d4ff" stroke-width="0.5" stroke-opacity="0.3"/>
+  <text x="342" y="49" font-family="monospace" font-size="9" fill="#00d4ff" text-anchor="middle">ONLINE</text>
+</svg>

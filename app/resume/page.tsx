@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { 
   FileText, Download, Briefcase, GraduationCap, Sparkles, ArrowLeft,
   MapPin, Mail, Globe, Shield, Server, Network, Monitor, Lock,
@@ -8,6 +9,19 @@ import {
   Bot, Workflow, BarChart3, Link2, BookOpen, Compass, Zap, Brain
 } from 'lucide-react';
 import Link from 'next/link';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
 
 export default function ResumePage() {
   return (
@@ -29,11 +43,11 @@ export default function ResumePage() {
       <div className="max-w-5xl mx-auto px-4 pb-12 space-y-8">
         
         {/* Hero Section */}
-        <div
-         
-         
-         
-          className="glass rounded-2xl p-8 glow-purple text-center animate-fade-in-up"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="glass rounded-2xl p-8 glow-purple text-center"
         >
           <div className="flex justify-center mb-6">
             <div className="w-28 h-28 rounded-full bg-gradient-to-br from-purple-500/30 to-cyan-500/30 flex items-center justify-center border-2 border-purple-500/50 shadow-lg shadow-purple-500/20">
@@ -73,24 +87,27 @@ export default function ResumePage() {
           </p>
           <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
             With over <span className="text-cyan-400 font-medium">30 years</span> of hands-on experience in Linux administration, network security, and hardware deployment, 
-            combined with a proven track record managing the full AI product lifecycle from rapid prototyping on Abacus.AI to version-controlled production environments. 
+            combined with a proven track record managing the full AI product lifecycle from rapid prototyping to version-controlled production environments. 
             <span className="text-purple-400 font-medium"> CompTIA A+ certified</span>.
           </p>
-        </div>
+        </motion.div>
 
         {/* AI & Engineering Skills */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Brain className="w-6 h-6 text-purple-400" />
             AI & Engineering Skills
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="glass rounded-xl p-5 glow-purple glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glow-purple glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Bot className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">AI Orchestration</h3>
@@ -102,9 +119,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glow-cyan glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glow-cyan glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Workflow className="w-5 h-5 text-cyan-400" />
                 <h3 className="font-medium text-cyan-300">Operations & DevOps</h3>
@@ -116,9 +133,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Shield className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">Quality & Security</h3>
@@ -130,9 +147,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <BarChart3 className="w-5 h-5 text-cyan-400" />
                 <h3 className="font-medium text-cyan-300">Web & Data</h3>
@@ -144,24 +161,27 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Selected AI Productions */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Zap className="w-6 h-6 text-cyan-400" />
             Selected AI Productions
-          </h2>
+          </motion.h2>
           
           <div className="space-y-4">
             {/* Mission Control */}
-            <div className="glass rounded-xl p-6 glow-purple glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-purple glass-hover">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-medium text-white flex items-center gap-2">
@@ -172,11 +192,11 @@ export default function ResumePage() {
                 </div>
                 <a 
                   href="https://mission-control.phipi.io"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1 mt-2 md:mt-0"
-                >
-                  mission-control.phipi.io
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:text-purple-300 truncate transition-colors"
+                  >
+                    mission-control.phipi.io
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -209,10 +229,10 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Port0 */}
-            <div className="glass rounded-xl p-6 glow-cyan glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-cyan glass-hover">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-medium text-white flex items-center gap-2">
@@ -222,12 +242,12 @@ export default function ResumePage() {
                   <p className="text-cyan-400">Central AI Gateway</p>
                 </div>
                 <a 
-                  href="https://port0.me"
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1 mt-2 md:mt-0"
-                >
-                  port0.me
+                  href="https://port0.me" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:text-purple-300 truncate transition-colors"
+                  >
+                    port0.me
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -248,12 +268,12 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Other AI Projects Grid */}
             <div className="grid md:grid-cols-3 gap-4">
               {/* Imzadi */}
-              <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+              <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
                 <div className="flex items-center gap-2 mb-3">
                   <BookOpen className="w-5 h-5 text-purple-400" />
                   <h3 className="font-medium text-white">Imzadi</h3>
@@ -270,10 +290,10 @@ export default function ResumePage() {
                 >
                   imzadi.love <ExternalLink className="w-3 h-3" />
                 </a>
-              </div>
+              </motion.div>
 
               {/* Phipi.io */}
-              <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+              <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
                 <div className="flex items-center gap-2 mb-3">
                   <Link2 className="w-5 h-5 text-cyan-400" />
                   <h3 className="font-medium text-white">Phipi.io</h3>
@@ -290,10 +310,10 @@ export default function ResumePage() {
                 >
                   phipi.io <ExternalLink className="w-3 h-3" />
                 </a>
-              </div>
+              </motion.div>
 
               {/* Phipi.me */}
-              <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+              <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
                 <div className="flex items-center gap-2 mb-3">
                   <FileText className="w-5 h-5 text-purple-400" />
                   <h3 className="font-medium text-white">Phipi.me</h3>
@@ -310,24 +330,27 @@ export default function ResumePage() {
                 >
                   phipi.me <ExternalLink className="w-3 h-3" />
                 </a>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Core Technical Skills */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Terminal className="w-6 h-6 text-cyan-400" />
             Core Technical Skills
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Monitor className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">Operating Systems</h3>
@@ -339,9 +362,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Network className="w-5 h-5 text-cyan-400" />
                 <h3 className="font-medium text-cyan-300">Networking & Security</h3>
@@ -353,9 +376,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <Server className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">Virtualization & Cloud</h3>
@@ -367,9 +390,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover">
               <div className="flex items-center gap-3 mb-3">
                 <HardDrive className="w-5 h-5 text-cyan-400" />
                 <h3 className="font-medium text-cyan-300">Monitoring & Tools</h3>
@@ -381,9 +404,9 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-5 glass-hover md:col-span-2 lg:col-span-2">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-5 glass-hover md:col-span-2 lg:col-span-2">
               <div className="flex items-center gap-3 mb-3">
                 <Lock className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">Privacy & Compliance</h3>
@@ -395,24 +418,27 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Mobile Platforms & Security Profile */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Smartphone className="w-6 h-6 text-purple-400" />
             Mobile Platforms & Security Profile
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 gap-4">
             {/* Android Ecosystem */}
-            <div className="glass rounded-xl p-6 glow-cyan glass-hover h-full animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-cyan glass-hover h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500/30 to-cyan-500/30 flex items-center justify-center border border-green-500/30">
                   <Layers className="w-5 h-5 text-green-400" />
@@ -455,10 +481,10 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* iOS Ecosystem */}
-            <div className="glass rounded-xl p-6 glow-purple glass-hover h-full animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-purple glass-hover h-full">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center border border-purple-500/30">
                   <Settings className="w-5 h-5 text-purple-400" />
@@ -489,10 +515,10 @@ export default function ResumePage() {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Specialized Mobile Skills */}
-            <div className="glass rounded-xl p-6 glass-hover md:col-span-2 animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <Bug className="w-6 h-6 text-cyan-400" />
                 <h3 className="font-medium text-white">Specialized Mobile Skills</h3>
@@ -513,23 +539,26 @@ export default function ResumePage() {
                   <p className="text-sm text-gray-300">Maintaining a dual-device strategy to leverage the security-hardened nature of iOS alongside the open-source flexibility and auditing power of Android.</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Professional Experience */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Briefcase className="w-6 h-6 text-purple-400" />
             Professional Experience
-          </h2>
+          </motion.h2>
           
           <div className="space-y-4">
-            <div className="glass rounded-xl p-6 glow-cyan glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-cyan glass-hover">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-medium text-white">Wireless Support Technician</h3>
@@ -554,9 +583,9 @@ export default function ResumePage() {
                   Troubleshot client connectivity issues in a high-growth startup environment.
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-6 glow-purple glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-purple glass-hover">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-medium text-white">Network Security Lead</h3>
@@ -581,23 +610,26 @@ export default function ResumePage() {
                   Provided ongoing IT maintenance and hardware troubleshooting for local community groups.
                 </li>
               </ul>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Key Projects */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Cpu className="w-6 h-6 text-cyan-400" />
             Key Projects & Technical Achievements
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="glass rounded-xl p-6 glass-hover h-full">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover h-full">
               <div className="flex items-center gap-3 mb-4">
                 <Shield className="w-6 h-6 text-cyan-400" />
                 <h3 className="font-medium text-white">Secure Remote Infrastructure</h3>
@@ -617,9 +649,9 @@ export default function ResumePage() {
                   Implemented logical network segmentation via VLANs to isolate work traffic from personal and guest devices.
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-6 glass-hover h-full">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover h-full">
               <div className="flex items-center gap-3 mb-4">
                 <Server className="w-6 h-6 text-purple-400" />
                 <h3 className="font-medium text-white">Advanced Homelab Management</h3>
@@ -639,9 +671,9 @@ export default function ResumePage() {
                   Utilizes Warp Terminal for streamlined interaction with LXC and VM instances.
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-6 glass-hover md:col-span-2 animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <Key className="w-6 h-6 text-cyan-400" />
                 <h3 className="font-medium text-white">Digital Identity & Privacy Architecture</h3>
@@ -657,23 +689,26 @@ export default function ResumePage() {
                   <p className="text-sm text-gray-300">Manages a centralized security repository for SSH keys, configurations, and sensitive notes using encrypted password management.</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Education & Certifications */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <GraduationCap className="w-6 h-6 text-purple-400" />
             Education & Certifications
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="glass rounded-xl p-6 glow-purple glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-purple glass-hover">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/30 to-cyan-500/30 flex items-center justify-center border border-purple-500/30">
                   <Award className="w-7 h-7 text-purple-400" />
@@ -684,9 +719,9 @@ export default function ResumePage() {
                   <p className="text-xs text-purple-300 mt-1">2003</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-6 glow-cyan glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glow-cyan glass-hover">
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/30 to-purple-500/30 flex items-center justify-center border border-cyan-500/30">
                   <GraduationCap className="w-7 h-7 text-cyan-400" />
@@ -697,23 +732,26 @@ export default function ResumePage() {
                   <p className="text-xs text-cyan-300 mt-1">Technical School | 2002</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Community Involvement */}
-        <section
+        <motion.section
+          variants={stagger}
+          initial="initial"
+          animate="animate"
         >
-          <h2 
-           
+          <motion.h2 
+            variants={fadeInUp}
             className="text-2xl font-light text-white mb-6 flex items-center gap-3"
           >
             <Users className="w-6 h-6 text-cyan-400" />
             Community Involvement
-          </h2>
+          </motion.h2>
           
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="glass rounded-xl p-6 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover">
               <div className="flex items-center gap-3 mb-4">
                 <Shield className="w-5 h-5 text-purple-400" />
                 <h3 className="font-medium text-purple-300">Privacy Advocate</h3>
@@ -721,9 +759,9 @@ export default function ResumePage() {
               <p className="text-gray-300 text-sm">
                 Regularly consults with peers and the public on digital hygiene, open-source benefits, and online security.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="glass rounded-xl p-6 glass-hover animate-fade-in-up">
+            <motion.div variants={fadeInUp} className="glass rounded-xl p-6 glass-hover">
               <div className="flex items-center gap-3 mb-4">
                 <Github className="w-5 h-5 text-cyan-400" />
                 <h3 className="font-medium text-cyan-300">Open Source Contributor</h3>
@@ -740,16 +778,16 @@ export default function ResumePage() {
                 <span>View GitHub Profile</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Download Section */}
-        <div
-         
-         
-         
-          className="text-center pt-8 animate-fade-in-up"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="text-center pt-8"
         >
           <a
             href="/api/generate-cv-pdf"
@@ -760,7 +798,7 @@ export default function ResumePage() {
             <span>Download PDF Version</span>
           </a>
           <p className="text-gray-500 text-xs mt-2">PDF generated dynamically with all current information</p>
-        </div>
+        </motion.div>
       </div>
 
       {/* Footer */}

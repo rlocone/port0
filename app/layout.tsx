@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: '/og-image.webp',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Portal - Personal Dashboard',
-        type: 'image/webp',
+        type: 'image/png',
       },
     ],
   },
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteName,
     description: siteDescription,
-    images: ['/og-image.webp'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
     follow: true,
   },
   other: {
-    'og:image:secure_url': `${siteUrl}/og-image.webp`,
+    'og:image:secure_url': `${siteUrl}/og-image.png`,
   },
 };
 
@@ -59,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Removed Abacus.ai widget script */}
       </head>
       <body className="antialiased min-h-screen">
         {/* Background orbs */}

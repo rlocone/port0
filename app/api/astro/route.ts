@@ -5,6 +5,21 @@ export const dynamic = 'force-dynamic';
 const LAT = 30.4383;
 const LON = -84.2807;
 
+function parseLocalDateTime(localDateTime: string, utcOffsetSeconds: number): Date {
+  const [datePart, timePart = '00:00:00'] = localDateTime.split('T');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const [hour, minute, second = '0'] = timePart.split(':');
+  const utcMs = Date.UTC(
+    year,
+    month - 1,
+    day,
+    Number(hour),
+    Number(minute),
+    Number(second)
+  ) - (utcOffsetSeconds * 1000);
+  return new Date(utcMs);
+}
+
 function getMoonPhase(year: number, month: number, day: number): {
   phase: string;
   illumination: number;
@@ -12,19 +27,15 @@ function getMoonPhase(year: number, month: number, day: number): {
   nextNewMoon: Date;
   nextFullMoon: Date;
 } {
-  // Julian day number
   const jd = 367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4)
     + Math.floor(275 * month / 9) + day + 1721013.5;
 
-  // Days since known new moon (Jan 6, 2000)
   const days = jd - 2451549.5;
   const lunations = days / 29.53058867;
   const phase = lunations - Math.floor(lunations);
 
-  // Illumination
   const illumination = Math.round((1 - Math.cos(phase * 2 * Math.PI)) / 2 * 100);
 
-  // Determine phase name
   const phases = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous',
     'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
   const idx = Math.round(phase * 8) % 8;
@@ -33,7 +44,6 @@ function getMoonPhase(year: number, month: number, day: number): {
   const emojis = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
   const emoji = emojis[idx];
 
-  // Next new/full moon
   const daysToNew = (1 - phase) * 29.53058867;
   const daysToFull = phase < 0.5
     ? (0.5 - phase) * 29.53058867
@@ -41,19 +51,18 @@ function getMoonPhase(year: number, month: number, day: number): {
   const nextNewLunation = days + daysToNew + 2451549.5;
   const nextFullLunation = days + daysToFull + 2451549.5;
 
-  const jdToDate = (jd: number) => {
-    const t = (jd - 2451545.0) / 36525;
-    const totalMinutes = 86400 * (jd - Math.floor(jd));
+  const jdToDate = (jdValue: number) => {
+    const totalMinutes = 86400 * (jdValue - Math.floor(jdValue));
     const hours = Math.floor(totalMinutes / 3600);
     const minutes = Math.floor((totalMinutes % 3600) / 60);
     const seconds = Math.floor(totalMinutes % 60);
 
-    const a = Math.floor(jd + 0.5);
+    const a = Math.floor(jdValue + 0.5);
     const b = a + 1537;
     const c = Math.floor((b - 122.1) / 365.25);
     const d = Math.floor(365.25 * c);
     const e = Math.floor((b - d) / 30.6001);
-    const dayNum = b - d - Math.floor(30.6001 * e) + (jd + 0.5 - a);
+    const dayNum = b - d - Math.floor(30.6001 * e) + (jdValue + 0.5 - a);
     const m = e < 14 ? e - 1 : e - 13;
     const y = m > 2 ? c - 4716 : c - 4715;
     return new Date(y, m - 1, Math.floor(dayNum), hours, minutes, seconds);
@@ -95,29 +104,13 @@ function getNextSolsticeEquinox(now: Date): { name: string; date: Date; emoji: s
   return next[0];
 }
 
-function getNthWeekdayOfMonth(
-  year: number,
-  monthIndex: number,
-  weekday: number,
-  nth: number,
-  hour = 2,
-): Date {
-  const firstOfMonth = new Date(year, monthIndex, 1, hour, 0, 0, 0);
-  const firstWeekday = firstOfMonth.getDay();
-  const daysUntilWeekday = (7 + weekday - firstWeekday) % 7;
-  const dayOfMonth = 1 + daysUntilWeekday + (nth - 1) * 7;
-  return new Date(year, monthIndex, dayOfMonth, hour, 0, 0, 0);
-}
-
 export async function GET() {
   try {
-    const now = new Date();
-
     const response = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
       `&daily=sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max` +
       `&current=temperature_2m` +
-      `&timezone=auto&forecast_days=1`,
+      `&timezone=America/New_York&forecast_days=1`,
       { cache: 'no-store' }
     );
 
@@ -126,12 +119,14 @@ export async function GET() {
     }
 
     const data = await response.json();
+    const now = new Date();
     const daily = data.daily;
+    const utcOffsetSeconds = Number(data.utc_offset_seconds ?? -14400);
 
     const sunriseStr = daily.sunrise[0];
     const sunsetStr = daily.sunset[0];
-    const sunrise = new Date(sunriseStr);
-    const sunset = new Date(sunsetStr);
+    const sunrise = parseLocalDateTime(sunriseStr, utcOffsetSeconds);
+    const sunset = parseLocalDateTime(sunsetStr, utcOffsetSeconds);
     const daylightSec = daily.daylight_duration[0];
     const sunshineSec = daily.sunshine_duration[0];
     const uvIndex = daily.uv_index_max[0];

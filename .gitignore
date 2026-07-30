@@ -1,7 +1,4 @@
-node_modules/
-.next/
-.build/
-.env
-.deploy/
-mockups/
-*.tsbuildinfo
+node_modules
+.next
+.env.local
+.env.*.local

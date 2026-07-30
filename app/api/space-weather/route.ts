@@ -11,10 +11,6 @@ function kpToGScale(kp: number): { label: string; level: number; color: string }
   return { label: 'G0 — Quiet', level: 0, color: '#00ff88' };
 }
 
-function formatKp(kp: number): string {
-  return kp.toFixed(1);
-}
-
 interface KpReading {
   time_tag: string;
   kp_index?: number;
@@ -30,7 +26,6 @@ interface HistoricalKp {
 
 export async function GET() {
   try {
-    // Fetch real-time Kp (1-minute resolution)
     const [kpRealtimeRes, kpHistoricalRes, electronRes] = await Promise.all([
       fetch('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json', {
         cache: 'no-store',
@@ -40,7 +35,6 @@ export async function GET() {
         cache: 'no-store',
         signal: AbortSignal.timeout(8000),
       }),
-      // Electron flux at ~79keV (most relevant for satellites/astronauts)
       fetch('https://services.swpc.noaa.gov/json/goes/primary/differential-electrons-1-day.json', {
         cache: 'no-store',
         signal: AbortSignal.timeout(8000),
@@ -51,34 +45,29 @@ export async function GET() {
     const kpHistorical = kpHistoricalRes.ok ? (await kpHistoricalRes.json() as HistoricalKp[]) : [];
     const electronFlux = electronRes.ok ? (await electronRes.json() as any[]) : [];
 
-    // Current Kp (latest reading)
     const latest = kpRealtime.length > 0 ? kpRealtime[kpRealtime.length - 1] : null;
     const currentKp = latest?.estimated_kp ?? latest?.kp_index ?? 0;
     const gScale = kpToGScale(currentKp);
 
-    // Historical Kp (last 48 hours for trend)
     const history = kpHistorical.slice(-16).map((h) => ({
       time: h.time_tag,
       kp: h.Kp,
     }));
 
-    // Max Kp in last 24 hours
     const last24h = kpHistorical.slice(-8);
     const maxKp24h = last24h.length > 0
       ? Math.max(...last24h.map((h) => h.Kp))
       : currentKp;
     const maxGScale = kpToGScale(maxKp24h);
 
-    // Recent electron flux at 79keV (averaged over last hour)
     const recentElectrons = electronFlux
       .filter((e: any) => e.energy === '79 keV')
-      .slice(-12); // last ~hour at 5-min cadence
+      .slice(-12);
 
     const avgElectronFlux = recentElectrons.length > 0
       ? Math.round(recentElectrons.reduce((s: number, e: any) => s + e.flux, 0) / recentElectrons.length)
       : 0;
 
-    // Storm condition summary
     let stormSummary: string;
     if (currentKp < 5) stormSummary = 'Quiet — no geomagnetic storm in progress';
     else if (currentKp < 6) stormSummary = 'G1 Minor storm — weak grid fluctuations, minor satellite impact';

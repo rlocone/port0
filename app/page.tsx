@@ -4,9 +4,8 @@ import SpaceWeather from '@/components/space-weather';
 import RSSCard from '@/components/rss-card';
 import WeatherCard from '@/components/weather-card';
 import SocialLinks from '@/components/social-links';
-import ReportsFeed from '@/components/reports-feed';
 import CommitsFeed from '@/components/commits-feed';
-import { Sparkles, RefreshCw, FileText } from 'lucide-react';
+import { Sparkles, RefreshCw, FileText, CircleDollarSign } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -21,14 +20,22 @@ export default function Home() {
             <Sparkles className="w-6 h-6 text-cyan-400" />
           </div>
           <p className="text-gray-400 text-sm">Your personal gateway to inspiration</p>
-          <Link 
-            href="/resume" 
-            className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30 transition-all duration-300"
-          >
-            <FileText className="w-4 h-4" />
-            <span className="text-sm">Resume & CV</span>
-          </Link>
-
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+            <Link 
+              href="/resume" 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30 transition-all duration-300"
+            >
+              <FileText className="w-4 h-4" />
+              <span className="text-sm">Resume & CV</span>
+            </Link>
+            <Link 
+              href="/eco"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-cyan-500/30 transition-all duration-300"
+            >
+              <CircleDollarSign className="w-4 h-4" />
+              <span className="text-sm">Eco-Dash</span>
+            </Link>
+          </div>
           <a
             href="https://uptime.phipi.io/api/sig/eXa"
             target="_blank"
@@ -37,11 +44,10 @@ export default function Home() {
             aria-label="Open the live Uptime Project signature badge in a new tab"
           >
             <img
-              src="https://uptime.phipi.io/api/sig/eXa"
+              src="/port0-badge.svg"
               alt="Uptime Project signature badge for eXa"
               className="block h-auto w-full rounded-xl"
               loading="lazy"
-              referrerPolicy="no-referrer"
             />
           </a>
         </div>
@@ -87,14 +93,6 @@ export default function Home() {
               accentColor="cyan"
             />
           </div>
-        </section>
-
-        {/* Rose Reports Section */}
-        <section>
-          <h2 className="text-xl font-light text-gray-300 mb-6 text-center">
-            Latest <span className="gradient-text">Reports</span>
-          </h2>
-          <ReportsFeed />
         </section>
 
         {/* GitHub Commits Section */}
