@@ -5,7 +5,7 @@ import RSSCard from '@/components/rss-card';
 import WeatherCard from '@/components/weather-card';
 import SocialLinks from '@/components/social-links';
 import CommitsFeed from '@/components/commits-feed';
-import { Sparkles, RefreshCw, FileText, CircleDollarSign } from 'lucide-react';
+import { Sparkles, RefreshCw, FileText, CircleDollarSign, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -34,6 +34,13 @@ export default function Home() {
             >
               <CircleDollarSign className="w-4 h-4" />
               <span className="text-sm">Eco-Dash</span>
+            </Link>
+            <Link 
+              href="/fleet"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-purple-500/30 transition-all duration-300"
+            >
+              <Users className="w-4 h-4" />
+              <span className="text-sm">The Fleet</span>
             </Link>
           </div>
           <a
