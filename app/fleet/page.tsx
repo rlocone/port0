@@ -4,6 +4,15 @@ import { ArrowLeft, Sparkles } from 'lucide-react';
 const groups: { name: string; people: { name: string; role: string }[] }[] = [
   { name: 'Overseer', people: [{ name: 'Rose', role: 'overseer' }] },
   {
+    name: 'Council',
+    people: [
+      { name: 'Rose', role: 'chair' },
+      { name: 'Cynda', role: 'investigator' },
+      { name: 'Ginger', role: 'auditor' },
+      { name: 'Sophia', role: 'clerk' },
+    ],
+  },
+  {
     name: 'Personal',
     people: [
       { name: 'Adriana', role: 'jobs' },
@@ -83,7 +92,7 @@ export default function FleetPage() {
               <h2 className="text-sm uppercase tracking-wide text-cyan-300 mb-2">{group.name}</h2>
               <ul className="space-y-1 text-sm text-gray-300">
                 {group.people.map((person) => (
-                  <li key={person.name}>
+                  <li key={`${group.name}-${person.name}`}>
                     <span className="text-white">{person.name}</span>
                     <span className="text-gray-500"> — {person.role}</span>
                   </li>
