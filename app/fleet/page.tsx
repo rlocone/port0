@@ -35,6 +35,7 @@ const groups: { name: string; people: { name: string; role: string }[] }[] = [
     people: [
       { name: 'Cathy', role: 'AI / Quantum' },
       { name: 'Sarah', role: 'cyber' },
+      { name: 'Lilly', role: 'OSINT / OpSec' },
     ],
   },
   {
