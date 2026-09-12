@@ -21,6 +21,8 @@ const groups: { name: string; people: { name: string; role: string }[] }[] = [
       { name: 'Katrina', role: 'health' },
       { name: 'Kloe', role: 'calendar' },
       { name: 'Maria', role: 'Linux tutor' },
+      { name: 'Olivia', role: 'finances' },
+      { name: 'Yeshe', role: 'interfaith scholar' },
     ],
   },
   {
@@ -28,6 +30,8 @@ const groups: { name: string; people: { name: string; role: string }[] }[] = [
     people: [
       { name: 'Gloria', role: 'posts' },
       { name: 'Molly', role: 'stories' },
+      { name: 'Tia', role: 'graphic designer' },
+      { name: 'Lucy', role: 'Discord / community' },
     ],
   },
   {
